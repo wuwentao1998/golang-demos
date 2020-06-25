@@ -11,9 +11,10 @@ type Task interface {
 
 type Result interface{}
 
-func Pipeline(pipeNum uint, tasks []Task) (<-chan Result, context.CancelFunc) {
+// tasks写完后一定要关闭，否则死锁
+func Pipeline(pipeNum uint, tasks <-chan Task) (<-chan Result, context.CancelFunc) {
 	ctx, cancel := context.WithCancel(context.Background())
-	inPipe := generate(ctx, tasks...)
+	inPipe := generate(ctx, tasks)
 	midPipes := make([]<-chan Result, 0, int(pipeNum))
 	for i := uint(0); i < pipeNum; i++ {
 		midPipes = append(midPipes, runTask(ctx, inPipe))
@@ -45,8 +46,8 @@ func merge(ctx context.Context, pipes ...<-chan Result) <-chan Result {
 	}
 
 	go func() {
-		wg.Wait()
-		close(out)
+		wg.Wait()  // 确保所有数据都写完了，避免关闭out后再写入导致panic
+		close(out) // 关闭out，避免for-range死锁
 	}()
 
 	return out
@@ -71,13 +72,13 @@ func runTask(ctx context.Context, inPipe <-chan Task) <-chan Result {
 	return out
 }
 
-func generate(ctx context.Context, tasks ...Task) <-chan Task {
+func generate(ctx context.Context, tasks <-chan Task) <-chan Task {
 	out := make(chan Task)
 
 	go func() {
 		defer close(out)
 
-		for _, task := range tasks {
+		for task := range tasks {
 			select {
 			case <-ctx.Done():
 				return

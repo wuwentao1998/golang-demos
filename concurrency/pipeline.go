@@ -1,18 +1,18 @@
-package pipeline
+package concurrency
 
 import (
 	"context"
 	"sync"
 )
 
-type Task interface {
+type PipelineTask interface {
 	Do() Result
 }
 
 type Result interface{}
 
 // tasks写完后一定要关闭，否则死锁
-func Pipeline(pipeNum uint, tasks <-chan Task) (<-chan Result, context.CancelFunc) {
+func Pipeline(pipeNum uint, tasks <-chan PipelineTask) (<-chan Result, context.CancelFunc) {
 	ctx, cancel := context.WithCancel(context.Background())
 	inPipe := generate(ctx, tasks)
 	midPipes := make([]<-chan Result, 0, int(pipeNum))
@@ -53,7 +53,7 @@ func merge(ctx context.Context, pipes ...<-chan Result) <-chan Result {
 	return out
 }
 
-func runTask(ctx context.Context, inPipe <-chan Task) <-chan Result {
+func runTask(ctx context.Context, inPipe <-chan PipelineTask) <-chan Result {
 	out := make(chan Result)
 
 	go func() {
@@ -72,8 +72,8 @@ func runTask(ctx context.Context, inPipe <-chan Task) <-chan Result {
 	return out
 }
 
-func generate(ctx context.Context, tasks <-chan Task) <-chan Task {
-	out := make(chan Task)
+func generate(ctx context.Context, tasks <-chan PipelineTask) <-chan PipelineTask {
+	out := make(chan PipelineTask)
 
 	go func() {
 		defer close(out)

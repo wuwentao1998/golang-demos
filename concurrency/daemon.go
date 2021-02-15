@@ -1,4 +1,4 @@
-package daemon
+package concurrency
 
 import (
 	"fmt"
@@ -7,21 +7,15 @@ import (
 
 type Daemon interface {
 	Shutdown()
-	AddTask(t Task)
+	AddTask(t DaemonTask)
 }
 
-type Task interface {
+type DaemonTask interface {
 	Do()
 }
 
-type TaskFunc func()
-
-func (t TaskFunc) Do() {
-	t()
-}
-
 type daemon struct {
-	ch     chan Task
+	ch     chan DaemonTask
 	closed bool
 
 	*sync.Mutex
@@ -34,7 +28,7 @@ func New(goroutineNum int) (Daemon, error) {
 	}
 
 	daemon := &daemon{
-		ch:        make(chan Task),
+		ch:        make(chan DaemonTask),
 		closed:    false,
 		WaitGroup: &sync.WaitGroup{},
 		Mutex:     &sync.Mutex{},
@@ -67,7 +61,7 @@ func (d *daemon) Shutdown() {
 	d.Wait()
 }
 
-func (d *daemon) AddTask(t Task) {
+func (d *daemon) AddTask(t DaemonTask) {
 	go func() {
 		d.Lock()
 		defer d.Unlock()

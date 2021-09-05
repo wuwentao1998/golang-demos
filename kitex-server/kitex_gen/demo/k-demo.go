@@ -331,7 +331,7 @@ func (p *Response) field2Length() int {
 	return l
 }
 
-func (p *DemoEchoArgs) FastRead(buf []byte) (int, error) {
+func (p *DemoServiceEchoArgs) FastRead(buf []byte) (int, error) {
 	var err error
 	var offset int
 	var l int
@@ -393,7 +393,7 @@ ReadStructBeginError:
 ReadFieldBeginError:
 	return offset, thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
 ReadFieldError:
-	return offset, thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_DemoEchoArgs[fieldId]), err)
+	return offset, thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_DemoServiceEchoArgs[fieldId]), err)
 SkipFieldError:
 	return offset, thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
 ReadFieldEndError:
@@ -402,7 +402,7 @@ ReadStructEndError:
 	return offset, thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
 }
 
-func (p *DemoEchoArgs) FastReadField1(buf []byte) (int, error) {
+func (p *DemoServiceEchoArgs) FastReadField1(buf []byte) (int, error) {
 	offset := 0
 	p.Req = NewRequest()
 	if l, err := p.Req.FastRead(buf[offset:]); err != nil {
@@ -414,13 +414,13 @@ func (p *DemoEchoArgs) FastReadField1(buf []byte) (int, error) {
 }
 
 // for compatibility
-func (p *DemoEchoArgs) FastWrite(buf []byte) int {
+func (p *DemoServiceEchoArgs) FastWrite(buf []byte) int {
 	return 0
 }
 
-func (p *DemoEchoArgs) FastWriteNocopy(buf []byte, binaryWriter bthrift.BinaryWriter) int {
+func (p *DemoServiceEchoArgs) FastWriteNocopy(buf []byte, binaryWriter bthrift.BinaryWriter) int {
 	offset := 0
-	offset += bthrift.Binary.WriteStructBegin(buf[offset:], "echo_args")
+	offset += bthrift.Binary.WriteStructBegin(buf[offset:], "Echo_args")
 	if p != nil {
 		offset += p.fastWriteField1(buf[offset:], binaryWriter)
 	}
@@ -429,9 +429,9 @@ func (p *DemoEchoArgs) FastWriteNocopy(buf []byte, binaryWriter bthrift.BinaryWr
 	return offset
 }
 
-func (p *DemoEchoArgs) BLength() int {
+func (p *DemoServiceEchoArgs) BLength() int {
 	l := 0
-	l += bthrift.Binary.StructBeginLength("echo_args")
+	l += bthrift.Binary.StructBeginLength("Echo_args")
 	if p != nil {
 		l += p.field1Length()
 	}
@@ -440,7 +440,7 @@ func (p *DemoEchoArgs) BLength() int {
 	return l
 }
 
-func (p *DemoEchoArgs) fastWriteField1(buf []byte, binaryWriter bthrift.BinaryWriter) int {
+func (p *DemoServiceEchoArgs) fastWriteField1(buf []byte, binaryWriter bthrift.BinaryWriter) int {
 	offset := 0
 	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "req", thrift.STRUCT, 1)
 	offset += p.Req.FastWriteNocopy(buf[offset:], binaryWriter)
@@ -448,7 +448,7 @@ func (p *DemoEchoArgs) fastWriteField1(buf []byte, binaryWriter bthrift.BinaryWr
 	return offset
 }
 
-func (p *DemoEchoArgs) field1Length() int {
+func (p *DemoServiceEchoArgs) field1Length() int {
 	l := 0
 	l += bthrift.Binary.FieldBeginLength("req", thrift.STRUCT, 1)
 	l += p.Req.BLength()
@@ -456,7 +456,7 @@ func (p *DemoEchoArgs) field1Length() int {
 	return l
 }
 
-func (p *DemoEchoResult) FastRead(buf []byte) (int, error) {
+func (p *DemoServiceEchoResult) FastRead(buf []byte) (int, error) {
 	var err error
 	var offset int
 	var l int
@@ -518,7 +518,7 @@ ReadStructBeginError:
 ReadFieldBeginError:
 	return offset, thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
 ReadFieldError:
-	return offset, thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_DemoEchoResult[fieldId]), err)
+	return offset, thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_DemoServiceEchoResult[fieldId]), err)
 SkipFieldError:
 	return offset, thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
 ReadFieldEndError:
@@ -527,7 +527,7 @@ ReadStructEndError:
 	return offset, thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
 }
 
-func (p *DemoEchoResult) FastReadField0(buf []byte) (int, error) {
+func (p *DemoServiceEchoResult) FastReadField0(buf []byte) (int, error) {
 	offset := 0
 	p.Success = NewResponse()
 	if l, err := p.Success.FastRead(buf[offset:]); err != nil {
@@ -539,13 +539,13 @@ func (p *DemoEchoResult) FastReadField0(buf []byte) (int, error) {
 }
 
 // for compatibility
-func (p *DemoEchoResult) FastWrite(buf []byte) int {
+func (p *DemoServiceEchoResult) FastWrite(buf []byte) int {
 	return 0
 }
 
-func (p *DemoEchoResult) FastWriteNocopy(buf []byte, binaryWriter bthrift.BinaryWriter) int {
+func (p *DemoServiceEchoResult) FastWriteNocopy(buf []byte, binaryWriter bthrift.BinaryWriter) int {
 	offset := 0
-	offset += bthrift.Binary.WriteStructBegin(buf[offset:], "echo_result")
+	offset += bthrift.Binary.WriteStructBegin(buf[offset:], "Echo_result")
 	if p != nil {
 		offset += p.fastWriteField0(buf[offset:], binaryWriter)
 	}
@@ -554,9 +554,9 @@ func (p *DemoEchoResult) FastWriteNocopy(buf []byte, binaryWriter bthrift.Binary
 	return offset
 }
 
-func (p *DemoEchoResult) BLength() int {
+func (p *DemoServiceEchoResult) BLength() int {
 	l := 0
-	l += bthrift.Binary.StructBeginLength("echo_result")
+	l += bthrift.Binary.StructBeginLength("Echo_result")
 	if p != nil {
 		l += p.field0Length()
 	}
@@ -565,7 +565,7 @@ func (p *DemoEchoResult) BLength() int {
 	return l
 }
 
-func (p *DemoEchoResult) fastWriteField0(buf []byte, binaryWriter bthrift.BinaryWriter) int {
+func (p *DemoServiceEchoResult) fastWriteField0(buf []byte, binaryWriter bthrift.BinaryWriter) int {
 	offset := 0
 	if p.IsSetSuccess() {
 		offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "success", thrift.STRUCT, 0)
@@ -575,7 +575,7 @@ func (p *DemoEchoResult) fastWriteField0(buf []byte, binaryWriter bthrift.Binary
 	return offset
 }
 
-func (p *DemoEchoResult) field0Length() int {
+func (p *DemoServiceEchoResult) field0Length() int {
 	l := 0
 	if p.IsSetSuccess() {
 		l += bthrift.Binary.FieldBeginLength("success", thrift.STRUCT, 0)
@@ -585,10 +585,139 @@ func (p *DemoEchoResult) field0Length() int {
 	return l
 }
 
-func (p *DemoEchoArgs) GetFirstArgument() interface{} {
+func (p *DemoServiceSendArgs) FastRead(buf []byte) (int, error) {
+	var err error
+	var offset int
+	var l int
+	var fieldTypeId thrift.TType
+	var fieldId int16
+	_, l, err = bthrift.Binary.ReadStructBegin(buf)
+	offset += l
+	if err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, l, err = bthrift.Binary.ReadFieldBegin(buf[offset:])
+		offset += l
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.STRUCT {
+				l, err = p.FastReadField1(buf[offset:])
+				offset += l
+				if err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				l, err = bthrift.Binary.Skip(buf[offset:], fieldTypeId)
+				offset += l
+				if err != nil {
+					goto SkipFieldError
+				}
+			}
+		default:
+			l, err = bthrift.Binary.Skip(buf[offset:], fieldTypeId)
+			offset += l
+			if err != nil {
+				goto SkipFieldError
+			}
+		}
+
+		l, err = bthrift.Binary.ReadFieldEnd(buf[offset:])
+		offset += l
+		if err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	l, err = bthrift.Binary.ReadStructEnd(buf[offset:])
+	offset += l
+	if err != nil {
+		goto ReadStructEndError
+	}
+
+	return offset, nil
+ReadStructBeginError:
+	return offset, thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return offset, thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return offset, thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_DemoServiceSendArgs[fieldId]), err)
+SkipFieldError:
+	return offset, thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+ReadFieldEndError:
+	return offset, thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return offset, thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *DemoServiceSendArgs) FastReadField1(buf []byte) (int, error) {
+	offset := 0
+	p.Req = NewRequest()
+	if l, err := p.Req.FastRead(buf[offset:]); err != nil {
+		return offset, err
+	} else {
+		offset += l
+	}
+	return offset, nil
+}
+
+// for compatibility
+func (p *DemoServiceSendArgs) FastWrite(buf []byte) int {
+	return 0
+}
+
+func (p *DemoServiceSendArgs) FastWriteNocopy(buf []byte, binaryWriter bthrift.BinaryWriter) int {
+	offset := 0
+	offset += bthrift.Binary.WriteStructBegin(buf[offset:], "Send_args")
+	if p != nil {
+		offset += p.fastWriteField1(buf[offset:], binaryWriter)
+	}
+	offset += bthrift.Binary.WriteFieldStop(buf[offset:])
+	offset += bthrift.Binary.WriteStructEnd(buf[offset:])
+	return offset
+}
+
+func (p *DemoServiceSendArgs) BLength() int {
+	l := 0
+	l += bthrift.Binary.StructBeginLength("Send_args")
+	if p != nil {
+		l += p.field1Length()
+	}
+	l += bthrift.Binary.FieldStopLength()
+	l += bthrift.Binary.StructEndLength()
+	return l
+}
+
+func (p *DemoServiceSendArgs) fastWriteField1(buf []byte, binaryWriter bthrift.BinaryWriter) int {
+	offset := 0
+	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "req", thrift.STRUCT, 1)
+	offset += p.Req.FastWriteNocopy(buf[offset:], binaryWriter)
+	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
+	return offset
+}
+
+func (p *DemoServiceSendArgs) field1Length() int {
+	l := 0
+	l += bthrift.Binary.FieldBeginLength("req", thrift.STRUCT, 1)
+	l += p.Req.BLength()
+	l += bthrift.Binary.FieldEndLength()
+	return l
+}
+
+func (p *DemoServiceEchoArgs) GetFirstArgument() interface{} {
 	return p.Req
 }
 
-func (p *DemoEchoResult) GetResult() interface{} {
+func (p *DemoServiceEchoResult) GetResult() interface{} {
 	return p.Success
+}
+
+func (p *DemoServiceSendArgs) GetFirstArgument() interface{} {
+	return p.Req
 }

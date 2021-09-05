@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-RUN_NAME="demo"
+RUN_NAME="kitex.thrift"
 
 mkdir -p output/bin
 cp script/* output/

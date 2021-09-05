@@ -3,11 +3,11 @@ package main
 import (
 	"log"
 
-	"github.com/wuwentao1998/golang-demos/kitex-server/kitex_gen/demo/demo"
+	"github.com/wuwentao1998/golang-demos/kitex-server/kitex_gen/demo/demoservice"
 )
 
 func main() {
-	svr := demo.NewServer(new(DemoImpl))
+	svr := demoservice.NewServer(new(DemoServiceImpl))
 
 	err := svr.Run()
 

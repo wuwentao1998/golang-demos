@@ -1,5 +1,5 @@
 #! /usr/bin/env bash
-export PSM=${PSM:-demo}
+export PSM=${PSM:-kitex.thrift}
 CURDIR=$(cd $(dirname $0); pwd)
 
 if [ "X$1" != "X" ]; then
@@ -19,4 +19,4 @@ if [ ! -d "$KITEX_LOG_DIR/rpc" ]; then
     mkdir -p "$KITEX_LOG_DIR/rpc"
 fi
 
-exec "$CURDIR/bin/demo"
+exec "$CURDIR/bin/kitex.thrift"

@@ -1,7 +1,8 @@
 namespace go demo
 
-service Demo {
-    Response echo(1: Request req)
+service DemoService {
+    Response Echo(1: Request req);
+    oneway void Send(1: Request req);
 }
 
 struct Request {
